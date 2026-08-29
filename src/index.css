@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink-950: #06090f;
+  --color-ink-900: #0a101b;
+  --color-ink-850: #0c1420;
+  --color-ink-800: #0e1725;
+  --color-ink-700: #142136;
+  --color-ink-600: #1d3050;
+  --color-line: #1a2940;
+  --color-line-soft: #14213a;
+  --color-mut: #8ca3be;
+  --color-faint: #5b7191;
+  --color-snow: #e9f1fb;
+
+  --color-ok: #3ecf8e;
+  --color-info: #58b6f5;
+  --color-warn: #f2b64c;
+  --color-bad: #f4718b;
+  --color-cy: #5fd4e0;
+
+  --animate-marquee: marquee 46s linear infinite;
+  --animate-blink: blink 1.1s steps(1) infinite;
+  --animate-pingdot: pingdot 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-riseline: riseline 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-dashflow: dashflow 1.4s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes pingdot {
+  0% { transform: scale(1); opacity: 0.7; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+@keyframes riseline {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dashflow {
+  to { stroke-dashoffset: -24; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink-950);
+  color: var(--color-snow);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(62, 207, 142, 0.28);
+  color: #eafff4;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1d3050 transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #1d3050; border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* ---- scroll reveal ---- */
+.rv {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--rv-delay, 0ms);
+  will-change: opacity, transform;
+}
+.rv.on {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- ambient blueprint grid ---- */
+.bg-blueprint {
+  background-image: linear-gradient(rgba(88, 182, 245, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 182, 245, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 78%);
+}
+.bg-blueprint-flat {
+  background-image: linear-gradient(rgba(88, 182, 245, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 182, 245, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ---- code token colors ---- */
+.tok-s { color: #7fdcb0; }
+.tok-c { color: #54688a; font-style: italic; }
+.tok-n { color: #f2c979; }
+.tok-k { color: #6cc3f7; }
+.tok-d { color: #f49bab; }
+.tok-p { color: #a9bdd6; }
+
+/* ---- line-mask headline reveal ---- */
+.mask-line {
+  display: block;
+  overflow: hidden;
+}
+.mask-line > span {
+  display: block;
+  transform: translateY(110%);
+  animation: maskup 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--ml-delay, 0ms);
+}
+@keyframes maskup {
+  to { transform: translateY(0); }
+}
+
+/* subtle scanline for terminal */
+.terminal-scan::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.016) 0px,
+    rgba(255, 255, 255, 0.016) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  border-radius: inherit;
+}
